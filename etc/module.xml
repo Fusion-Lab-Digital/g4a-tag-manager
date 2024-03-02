@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Vasilis Neris
+ * @package FusionLab_Ga4
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+    <module name="FusionLab_Ga4" setup_version="1.0.0" >
+        <sequence>
+            <module name="Magento_Catalog" />
+            <module name="FusionLab_Base" />
+        </sequence>
+    </module>
+</config>

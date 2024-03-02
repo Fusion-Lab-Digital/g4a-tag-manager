@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Vasilis Neris
+ * @package FusionLab_Ga4
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="fusionlab_ga4_settings" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label><![CDATA[Google Tag Manager]]></label>
+            <tab>fusion_lab</tab>
+            <resource>Magento_Backend::admin</resource>
+            <group id="general" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General Settings</label>
+                <field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Module?</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="gtm_container_id" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>GTM Container Id</label>
+                    <comment>Your google tag manager container Id. GTM-XXXXX</comment>
+                    <validate>required-entry</validate>
+                    <backend_model>FusionLab\Ga4\Model\Adminhtml\Backend\ContainerIdValidator</backend_model>
+                    <depends>
+                        <field id="*/*/enable">1</field>
+                    </depends>
+                </field>
+                <field id="json_setup" translate="label" type="button" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <frontend_model>FusionLab\Ga4\Block\Adminhtml\GtmJson</frontend_model>
+                    <depends>
+                        <field id="*/*/enable">1</field>
+                    </depends>
+                </field>
+            </group>
+            <group id="event_settings" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Event Settings</label>
+                <field id="item_id" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Use as Item id</label>
+                    <source_model>FusionLab\Ga4\Model\Config\Source\ProductIdentifierSource</source_model>
+                    <comment>Used for field item_id</comment>
+                </field>
+                <field id="brand" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Brand Attribute Code</label>
+                    <source_model>FusionLab\Ga4\Model\Config\Source\ProductAttributesSource</source_model>
+                </field>
+                <field id="category_concat" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Concat Category Attributes into 1 field?</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If yes then the categories will show in item_category as Women/Shoes/Running Shoes. If no then the item_category up to item_category5 will be filled.</comment>
+                </field>
+            </group>
+            <group id="product_settings" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>Product Settings</label>
+                <field id="product_list" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+                   <label>Product List Selector</label>
+                   <comment>Css selector for Product List Ex. .products.wrapper.grid.products-grid</comment>
+               </field>
+            </group>
+        </section>
+    </system>
+</config>

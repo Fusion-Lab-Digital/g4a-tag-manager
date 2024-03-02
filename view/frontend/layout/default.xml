@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Vasilis Neris
+ * @package FusionLab_Ga4
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="head.additional">
+            <block class="FusionLab\Ga4\Block\Head" name="FusionLab.ga4.head" />
+        </referenceBlock>
+        <referenceContainer name="after.body.start">
+            <block class="FusionLab\Ga4\Block\Head" name="FusionLab.ga4.noscript" template="FusionLab_Ga4::noscript.phtml" />
+        </referenceContainer>
+        <referenceContainer name="before.body.end">
+            <block class="FusionLab\Ga4\Block\RemoveItem" name="FusionLab.ga4.remove-item"/>
+            <block class="FusionLab\Ga4\Block\AddToCart" name="FusionLab.ga4.add-to-cart"/>
+        </referenceContainer>
+    </body>
+</page>

@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * @author Vasilis Neris
+ * @package Fusion_Ga4
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <fusionlab_ga4_settings>
+            <general>
+                <enable>0</enable>
+                <gtm_container_id>GTM-</gtm_container_id>
+            </general>
+            <event_settings>
+                <item_id>entity_id</item_id>
+                <brand>manufacturer</brand>
+                <category_concat>1</category_concat>
+                <subtotal_tax>1</subtotal_tax>
+            </event_settings>
+            <product_settings>
+                <product_list>.products.wrapper,grid.products-grid</product_list>
+            </product_settings>
+        </fusionlab_ga4_settings>
+    </default>
+</config>

@@ -1,0 +1,23 @@
+<?php
+/**
+ * @author Vasilis Neris
+ * @package FusionLab_Ga4
+ */
+
+/** @var \FusionLab\Ga4\Block\Adminhtml\GtmJson $block */
+
+?>
+
+<div class="info">
+    <h3><?php echo __('Get Started!') ?></h3>
+    <h5><?php echo __('Download the JSON and import it on your Google Tag Manager Container.') ?></h5>
+    <h5><?php echo __('Navigate to your Google Tag Manager container and click admin, then click import container.') ?></h5>
+    <img src="<?php echo $block->getViewFileUrl('FusionLab_Ga4::images/get-started-admin.png') ?>"/>
+    <img src="<?php echo $block->getViewFileUrl('FusionLab_Ga4::images/get-started-import.png') ?>"/>
+</div>
+
+<div class="control">
+    <a href="<?php echo $block->getJsonFileUrl(); ?>" download class="action-default">
+        <?php echo __('Download JSON File'); ?>
+    </a>
+</div>

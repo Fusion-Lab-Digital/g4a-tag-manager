@@ -1,0 +1,17 @@
+<?php
+/**
+ * @author Vasilis Neris
+ * @package FusionLab_Ga4
+ */
+/** @var \FusionLab\Ga4\Block\ProductList $block */
+/** @var \Magento\Catalog\ViewModel\Product\Breadcrumbs $viewModel */
+?>
+
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "FusionLab_Ga4/js/view-item-list": <?php echo $block->getJsLayout() ?>
+        }
+    }
+
+</script>

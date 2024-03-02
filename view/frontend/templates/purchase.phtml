@@ -1,0 +1,16 @@
+<?php
+/**
+ * @author Vasilis Neris
+ * @package FusionLab_Ga4
+ */
+/** @var \FusionLab\Ga4\Block\Purchase $block */
+?>
+
+
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "FusionLab_Ga4/js/purchase": <?php echo $block->getJsLayout() ?>
+    }
+}
+</script>
