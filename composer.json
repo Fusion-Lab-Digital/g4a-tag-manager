@@ -16,7 +16,7 @@
     },
     "require": {
         "magento/framework": ">100.0",
-        "fusion-lab/base": ">=1.0.0",
+        "fusion-lab/module-base": ">=1.0.0",
         "php": ">= 7.3"
     },
     "authors": [
