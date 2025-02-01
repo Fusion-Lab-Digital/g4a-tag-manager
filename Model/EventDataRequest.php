@@ -1,7 +1,19 @@
 <?php
 /**
- * @author Vasilis Neris
- * @package FusionLab_Ga4
+ * Copyright (c) 2025 Fusion Lab G.P
+ * Website: https://fusionlab.gr
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 namespace FusionLab\Ga4\Model;
@@ -34,7 +46,7 @@ class EventDataRequest extends DataObject implements EventDataRequestInterface
      */
     public function getEventName(): string
     {
-        return (string)$this->getData(self::EVENT_NAME);
+        return (string) $this->getData(self::EVENT_NAME);
     }
 
     /**
@@ -63,14 +75,13 @@ class EventDataRequest extends DataObject implements EventDataRequestInterface
         $output = [];
         $currentGroup = null;
         foreach ($data as $key => $value) {
-
             preg_match('/([^\[]+)/', $key, $matches);
             if (!empty($matches)) {
                 $currentGroup = $matches[1];
             }
             preg_match('/\[(\d+)\]/', $key, $indexMatches);
             if (isset($indexMatches[1])) {
-                $index = (int)$indexMatches[1];
+                $index = (int) $indexMatches[1];
                 $output[$currentGroup][$index] = $value;
             } else {
                 $output[$key] = $value;
@@ -94,7 +105,7 @@ class EventDataRequest extends DataObject implements EventDataRequestInterface
      */
     public function setCategories(array $categories): \FusionLab\Ga4\Api\Data\EventDataRequestInterface
     {
-        return $this->setData(self::CATEGORIES,$categories);
+        return $this->setData(self::CATEGORIES, $categories);
     }
 
     /**
@@ -112,6 +123,4 @@ class EventDataRequest extends DataObject implements EventDataRequestInterface
     {
         return $this->setData(self::INCLUDE_CATEGORIES, $value);
     }
-
-
 }

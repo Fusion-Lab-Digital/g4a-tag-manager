@@ -18,11 +18,15 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
-    <module name="FusionLab_Ga4" setup_version="0.1.0" >
-        <sequence>
-            <module name="Magento_Catalog" />
-            <module name="FusionLab_Core" />
-        </sequence>
-    </module>
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add
+            id="FusionLab_Ga4::child_menu"
+            title="Google Analytics 4"
+            module="FusionLab_Ga4"
+            sortOrder="100"
+            parent="FusionLab_Core::main_menu"
+            action="adminhtml/system_config/edit/section/fusionlab_ga4_settings"
+            resource="FusionLab_Ga4::config"/>
+    </menu>
 </config>

@@ -1,7 +1,19 @@
 <?php
 /**
- * @author Vasilis Neris
- * @package FusionLab_Ga4
+ * Copyright (c) 2025 Fusion Lab G.P
+ * Website: https://fusionlab.gr
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 namespace FusionLab\Ga4\Model;
@@ -16,18 +28,22 @@ use Magento\Bundle\Model\Product\Price as BundlePrice;
 use Magento\Catalog\Api\CategoryRepositoryInterface;
 use Magento\Catalog\Api\Data\ProductInterface;
 use Magento\Catalog\Model\Product;
+use Magento\Catalog\Model\Product\Type as ProductType;
 use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory;
 use Magento\Framework\App\ResourceConnection;
 use Magento\Framework\DB\Adapter\AdapterInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Store\Model\StoreManagerInterface;
-use Magento\Catalog\Model\Product\Type as ProductType;
 use Magento\GroupedProduct\Model\Product\Type\Grouped;
+use Magento\Store\Model\StoreManagerInterface;
+use Psr\Log\LoggerInterface;
 
 class ItemDataRepository implements ItemDataRepositoryInterface
 {
 
-    const SINGLE_QTY_EVENTS = ['view_item_list', 'view_item'];
+    const SINGLE_QTY_EVENTS = [
+        'view_item_list',
+        'view_item',
+    ];
     const MAX_CATEGORIES = 5;
 
     private EcommerceDataInterfaceFactory $ecommerceDataFactory;
@@ -54,6 +70,8 @@ class ItemDataRepository implements ItemDataRepositoryInterface
 
     private CategoryRepositoryInterface $categoryRepository;
 
+    private LoggerInterface $logger;
+
     /**
      * @param EcommerceDataInterfaceFactory $ecommerceDataFactory
      * @param EventDataInterfaceFactory $eventDataInterfaceFactory
@@ -78,9 +96,9 @@ class ItemDataRepository implements ItemDataRepositoryInterface
         Grouped                       $grouped,
         ProductAttributeResolver      $attributeResolver,
         ResourceConnection $connection,
-        CategoryRepositoryInterface $categoryRepository
-    )
-    {
+        CategoryRepositoryInterface $categoryRepository,
+        LoggerInterface             $logger
+    ) {
         $this->ecommerceDataFactory = $ecommerceDataFactory;
         $this->eventDataInterfaceFactory = $eventDataInterfaceFactory;
         $this->itemEventDataInterfaceFactory = $itemEventDataInterfaceFactory;
@@ -92,6 +110,7 @@ class ItemDataRepository implements ItemDataRepositoryInterface
         $this->attributeResolver = $attributeResolver;
         $this->connection = $connection->getConnection();
         $this->categoryRepository = $categoryRepository;
+        $this->logger = $logger;
     }
 
     /**
@@ -131,12 +150,14 @@ class ItemDataRepository implements ItemDataRepositoryInterface
         return $this->collectionFactory->create()
             ->addStoreFilter($this->storeManager->getStore()->getId())
             ->addAttributeToFilter('entity_id', ['in' => $ids])
-            ->addAttributeToSelect([
-                'name',
-                'price',
-                'special_price',
-                $this->configProvider->getProductBrandAttributeCode()
-            ])
+            ->addAttributeToSelect(
+                [
+                    'name',
+                    'price',
+                    'special_price',
+                    $this->configProvider->getProductBrandAttributeCode(),
+                ]
+            )
             ->getItems();
     }
 
@@ -155,7 +176,7 @@ class ItemDataRepository implements ItemDataRepositoryInterface
         $data->setIndex($index);
         $data->setItemBrand($this->getItemBrand($product));
         $data->setPrice($this->getProductPrice($product));
-        if($this->eventDataRequest->getEventName() === 'add_to_cart' && $this->eventDataRequest->getProductFormData()->hasData('qty')){
+        if ($this->eventDataRequest->getEventName() === 'add_to_cart' && $this->eventDataRequest->getProductFormData()->hasData('qty')) {
             $data->setPrice($data->getPrice() * $this->eventDataRequest->getProductFormData()->getData('qty'));
         }
 
@@ -179,44 +200,45 @@ class ItemDataRepository implements ItemDataRepositoryInterface
      */
     private function setProductCategories(ItemEventDataInterface $data, ProductInterface $product): void
     {
-        if($this->eventDataRequest->getCategories()){
+        if ($this->eventDataRequest->getCategories()) {
             $this->formatCategoriesIntoObject($data, $this->eventDataRequest->getCategories());
             return;
         }
 
-        if(!$this->eventDataRequest->getIncludeCategories()){
+        if (!$this->eventDataRequest->getIncludeCategories()) {
             return;
         }
 
         $categoryIds = $product->getCategoryIds();
         $categories = [];
-        if(!$categoryIds){
+        if (!$categoryIds) {
             return;
         }
         $select = $this->connection->select()
-            ->from($this->connection->getTableName('catalog_category_entity'),['path'])
+            ->from($this->connection->getTableName('catalog_category_entity'), ['path'])
             ->where('entity_id in (?)', $categoryIds)
             ->order('LENGTH(path) DESC')
             ->limit(1);
 
         $deepestPath = $this->connection->fetchOne($select);
-        if(!$deepestPath){
+        if (!$deepestPath) {
             return;
         }
         $deepestPath = explode('/', $deepestPath);
 
-        foreach ($deepestPath as $id){
+        foreach ($deepestPath as $id) {
             try {
                 $category = $this->categoryRepository->get($id);
-                if($category->getLevel() <= 1){
+                if ($category->getLevel() <= 1) {
                     continue;
                 }
                 $categories[] = $category->getName();
             } catch (NoSuchEntityException $e) {
+                $this->logger->critical($e);
             }
         }
 
-        if(!$categories){
+        if (!$categories) {
             return;
         }
 
@@ -230,20 +252,19 @@ class ItemDataRepository implements ItemDataRepositoryInterface
      */
     private function formatCategoriesIntoObject(ItemEventDataInterface $data, array $categories):void
     {
-        if($this->configProvider->shouldConcatCategories()){
+        if ($this->configProvider->shouldConcatCategories()) {
             $data->setItemCategory(implode('/', $categories));
             return;
         }
 
-        for($i = 1; $i <= self::MAX_CATEGORIES; $i++){
-            if(($i - 1) === 0){
+        for ($i = 1; $i <= self::MAX_CATEGORIES; $i++) {
+            if (($i - 1) === 0) {
                 $function = 'setItemCategory';
-            }
-            else{
+            } else {
                 $function = 'setItemCategory' . ($i);
             }
             $key = $i - 1;
-            if(isset($categories[$key])){
+            if (isset($categories[$key])) {
                 $data->$function($categories[$key]);
             }
         }
@@ -307,5 +328,4 @@ class ItemDataRepository implements ItemDataRepositoryInterface
         }
         return $items;
     }
-
 }

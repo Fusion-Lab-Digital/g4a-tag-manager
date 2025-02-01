@@ -17,8 +17,14 @@ class ProductIdentifierSource implements OptionSourceInterface
     public function toOptionArray()
     {
         return [
-            ['value' => 'entity_id', 'label' => 'Product Id'],
-            ['value' => 'sku', 'label' => 'Sku']
+            [
+                'label' => 'Product Id',
+                'value' => 'entity_id',
+            ],
+            [
+                'label' => 'Sku',
+                'value' => 'sku',
+            ],
         ];
     }
 }

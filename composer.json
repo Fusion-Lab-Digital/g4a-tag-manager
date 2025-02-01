@@ -1,11 +1,9 @@
 {
-    "name": "fusion-lab/module-ga4",
-    "description": "Google Tag Manager GA 4",
+    "name": "fusionlab-digital/ga4",
+    "description": "Google Tag Manager Google Analytics 4",
     "type": "magento2-module",
-    "version": "1.0.0",
-    "license": [
-        "proprietary"
-    ],
+    "version": "0.1.0",
+    "license": ["Apache-2.0"],
     "autoload": {
         "files": [
             "registration.php"
@@ -16,13 +14,7 @@
     },
     "require": {
         "magento/framework": ">100.0",
-        "fusion-lab/module-base": ">=1.0.0",
-        "php": ">= 7.3"
-    },
-    "authors": [
-        {
-            "name": "Fusion Lab G.P",
-            "email": "info@fusionlab.gr"
-        }
-    ]
+        "fusionlab/core": ">=0.1.0",
+        "php": ">= 7.4"
+    }
 }
