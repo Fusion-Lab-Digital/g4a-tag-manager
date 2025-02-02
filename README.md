@@ -43,7 +43,7 @@ We recommend to install this module via a compatible version of [Composer 2.x](h
 
 See your [Magento 2 Requirements here](https://experienceleague.adobe.com/en/docs/commerce-operations/installation-guide/system-requirements). 
 ```bash
-composer require fusionlab-digital/ga4
+composer require fusionlab-digital/ga4-tag-manager
 php bin/magento module:enable FusionLab_GA4
 php bin/magento setup:upgrade
 php bin/magento s:d:c
