@@ -1,5 +1,5 @@
 {
-    "name": "fusionlab-digital/ga4",
+    "name": "fusionlab-digital/ga4-tag-manager",
     "description": "Google Tag Manager Google Analytics 4",
     "type": "magento2-module",
     "version": "0.1.0",
