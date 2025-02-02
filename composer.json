@@ -14,7 +14,7 @@
     },
     "require": {
         "magento/framework": ">100.0",
-        "fusionlab/core": ">=0.1.0",
+        "fusionlab-digital/core": ">=0.1.0",
         "php": ">= 7.4"
     }
 }
