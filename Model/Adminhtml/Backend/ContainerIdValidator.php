@@ -27,7 +27,7 @@ class ContainerIdValidator extends \Magento\Framework\App\Config\Value
     public function beforeSave(): ContainerIdValidator
     {
 
-        if (!preg_match('/^GTM-[a-zA-Z0-9]{7}$/', $this->getValue())) {
+        if (!preg_match('/^GTM-[a-zA-Z0-9]{7,9}$/', $this->getValue())) {
             throw new \Magento\Framework\Exception\LocalizedException(
                 __('Invalid GTM container ID. It should start with GTM- followed by 7 alphanumeric characters.')
             );
