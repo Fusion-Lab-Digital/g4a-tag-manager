@@ -2,7 +2,7 @@
     "name": "fusionlab-digital/ga4-tag-manager",
     "description": "Google Tag Manager Google Analytics 4",
     "type": "magento2-module",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "license": ["Apache-2.0"],
     "autoload": {
         "files": [
