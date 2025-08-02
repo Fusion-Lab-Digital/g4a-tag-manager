@@ -76,6 +76,9 @@ class Purchase extends AbstractConfig
                 $this->jsLayout['quantity'][$productId] = (float) $item->getQtyOrdered();
                 $this->jsLayout['quantity'][$item->getProduct()->getData('sku')] = (float) $item->getQtyOrdered();
                 $this->jsLayout['quantity'][$item->getSku()] = (float) $item->getQtyOrdered();
+                $this->jsLayout['price'][$productId] = $item->getPriceInclTax();
+                $this->jsLayout['price'][$item->getProduct()->getData('sku')] = $item->getPriceInclTax();
+                $this->jsLayout['price'][$item->getSku()] = (float) $item->getPriceInclTax();
             }
         }
         $this->jsLayout['value'] = (float) $order->getGrandTotal();

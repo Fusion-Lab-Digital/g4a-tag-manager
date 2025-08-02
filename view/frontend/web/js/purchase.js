@@ -43,6 +43,7 @@ define([
             data.ecommerce.transaction_id= this.options.transaction_id;
             data.ecommerce.items.forEach(function (item) {
                 item.quantity = helper.getProductQuantityFromOptions(self.options.quantity, item.item_id);
+                item.price = helper.getProductPriceFromOptions(self.options.price, item.item_id);
             })
         },
 

@@ -11,6 +11,16 @@ define([], function () {
                 }
             });
             return result;
+        },
+
+        getProductPriceFromOptions(prices, productIdentifier) {
+            var result = 0;
+            Object.keys(prices).forEach(function (identifier) {
+                if (identifier == productIdentifier) {
+                    result = prices[identifier];
+                }
+            });
+            return result;
         }
 
     };

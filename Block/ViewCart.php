@@ -90,6 +90,9 @@ class ViewCart extends AbstractConfig
                 $this->jsLayout['quantity'][$productId] = $item->getQty();
                 $this->jsLayout['quantity'][$item->getProduct()->getData('sku')] = $item->getQty();
                 $this->jsLayout['quantity'][$item->getSku()] = (float) $item->getQty();
+                $this->jsLayout['price'][$productId] = $item->getPriceInclTax();
+                $this->jsLayout['price'][$item->getProduct()->getData('sku')] = $item->getPriceInclTax();
+                $this->jsLayout['price'][$item->getSku()] = (float)$item->getPriceInclTax();
                 $value = $value + ($item->getPriceInclTax() * $item->getQty());
             }
         }

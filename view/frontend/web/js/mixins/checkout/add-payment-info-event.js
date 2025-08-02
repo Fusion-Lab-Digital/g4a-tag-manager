@@ -36,7 +36,7 @@ define([
                 var request = JSON.parse(JSON.stringify(window.gtm.begin_checkout));
                 request.event = 'add_payment_info';
                 request.ecommerce.payment_type = quote.paymentMethod().method;
-                gtmCheckout.adjustProductQuantitiesFromQuote(request);
+                gtmCheckout.adjustProductDataFromQuote(request);
                 if(!_.isEqual(request,this.request)){
                     this.request = request;
                     gtm.addToDataLayer(request);

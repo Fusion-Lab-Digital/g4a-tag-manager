@@ -37,6 +37,7 @@ define([
             data.ecommerce.coupon = this.options.coupon;
             data.ecommerce.items.forEach(function (item) {
                 item.quantity = helper.getProductQuantityFromOptions(self.options.quantity, item.item_id);
+                item.price = helper.getProductPriceFromOptions(self.options.price, item.item_id);
             })
         },
 
