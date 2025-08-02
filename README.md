@@ -68,7 +68,7 @@ Open the Admin and navigate to <b>Menu -> FusionLab -> Google Analytics 4</b>
 
 1. Enable the Module
 2. Provide your GTM Container ID
-3. (recommended) Download the JSON file and import it to your GTM Container. Make sure you know what you are doing if other tags are present.
+3. (recommended) Download the JSON file and import it to your GTM Container. Make sure you know what you are doing if other tags are present. In your GTM Container, navigate to variables and adjust the following Constants to your IDS. Google Ads Conversion Label, Google Analytics Ids, Google Conversion Id.
 4. Expand Event Settings and apply the configuration for item id, brand, and concat category
 5. (only for `view_item_list`) Expand Product Settings to apply the product list selector. Default value `.products.wrapper,grid.products-grid` is for clean theme.
 
