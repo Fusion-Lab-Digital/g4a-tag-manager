@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2025 Fusion Lab G.P
+ * Copyright (c) 2026 Fusion Lab G.P
  * Website: https://fusionlab.gr
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,7 +29,6 @@ use Psr\Log\LoggerInterface;
 
 abstract class AbstractConfig extends Template
 {
-
     protected ConfigProvider $configProvider;
 
     protected Data $catalogHelper;
@@ -47,12 +46,12 @@ abstract class AbstractConfig extends Template
      * @param array $data
      */
     public function __construct(
-        ConfigProvider     $configProvider,
-        Data               $catalogHelper,
+        ConfigProvider $configProvider,
+        Data $catalogHelper,
         ResourceConnection $connection,
-        LoggerInterface    $logger,
-        Context   $context,
-        array              $data = []
+        LoggerInterface $logger,
+        Context $context,
+        array $data = [],
     ) {
         $this->configProvider = $configProvider;
         $this->catalogHelper = $catalogHelper;
@@ -82,8 +81,8 @@ abstract class AbstractConfig extends Template
 
         foreach ($this->catalogHelper->getBreadcrumbPath() as $key => $item) {
             $result[] = [
-                'id' => str_replace('category', "", $key),
-                'label' => $item['label']
+                "id" => str_replace("category", "", $key),
+                "label" => $item["label"],
             ];
         }
         return $result;
@@ -94,9 +93,11 @@ abstract class AbstractConfig extends Template
      */
     protected function getCurrencyCode(): string
     {
-        $result = '';
+        $result = "";
         try {
-            $result = $this->_storeManager->getStore()->getCurrentCurrencyCode();
+            $result = $this->_storeManager
+                ->getStore()
+                ->getCurrentCurrencyCode();
         } catch (NoSuchEntityException $e) {
             $this->logger->critical($e->getMessage());
         }
@@ -110,9 +111,12 @@ abstract class AbstractConfig extends Template
      */
     protected function getProductIdBySku(string $sku): int
     {
-        $select = $this->connection->select()
-            ->from($this->connection->getTableName('catalog_product_entity'), ['entity_id'])
-            ->where('sku = ?', $sku);
+        $select = $this->connection
+            ->select()
+            ->from($this->connection->getTableName("catalog_product_entity"), [
+                "entity_id",
+            ])
+            ->where("sku = ?", $sku);
 
         return (int) $this->connection->fetchOne($select);
     }

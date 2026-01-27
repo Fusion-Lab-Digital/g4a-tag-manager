@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2025 Fusion Lab G.P
+ * Copyright (c) 2026 Fusion Lab G.P
  * Website: https://fusionlab.gr
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,7 +23,6 @@ use Magento\Framework\DataObject;
 
 class EventData extends DataObject implements EventDataInterface
 {
-
     /**
      * @inheritDoc
      */
@@ -35,8 +34,9 @@ class EventData extends DataObject implements EventDataInterface
     /**
      * @inheritDoc
      */
-    public function setEvent(string $event): \FusionLab\Ga4\Api\Data\EventDataInterface
-    {
+    public function setEvent(
+        string $event,
+    ): \FusionLab\Ga4\Api\Data\EventDataInterface {
         return $this->setData(self::EVENT, $event);
     }
 
@@ -51,8 +51,9 @@ class EventData extends DataObject implements EventDataInterface
     /**
      * @inheritDoc
      */
-    public function setEcommerce(\FusionLab\Ga4\Api\Data\EcommerceDataInterface $ecommerceData): \FusionLab\Ga4\Api\Data\EventDataInterface
-    {
+    public function setEcommerce(
+        \FusionLab\Ga4\Api\Data\EcommerceDataInterface $ecommerceData,
+    ): \FusionLab\Ga4\Api\Data\EventDataInterface {
         return $this->setData(self::ECOMMERCE, $ecommerceData);
     }
 }

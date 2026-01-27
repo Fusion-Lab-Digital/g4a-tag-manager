@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2025 Fusion Lab G.P
+ * Copyright (c) 2026 Fusion Lab G.P
  * Website: https://fusionlab.gr
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,19 +20,18 @@ namespace FusionLab\Ga4\Block;
 
 class ProductView extends AbstractConfig
 {
-
-    protected $_template = 'FusionLab_Ga4::view-item.phtml';
+    protected $_template = "FusionLab_Ga4::view-item.phtml";
 
     /**
      * @return AbstractConfig
      */
     protected function _prepareLayout()
     {
-        $this->jsLayout['categories'] = $this->getCategoryPath();
-        $this->jsLayout['currency'] = $this->getCurrencyCode();
+        $this->jsLayout["categories"] = $this->getCategoryPath();
+        $this->jsLayout["currency"] = $this->getCurrencyCode();
         if ($product = $this->getCurrentProduct()) {
-            $this->jsLayout['productIds'] = [(int) $product->getId()];
-            $this->jsLayout['value'] = (float) $product->getFinalPrice();
+            $this->jsLayout["productIds"] = [(int) $product->getId()];
+            $this->jsLayout["value"] = (float) $product->getFinalPrice();
         }
         return parent::_prepareLayout();
     }
@@ -40,7 +39,7 @@ class ProductView extends AbstractConfig
     /**
      * @return \Magento\Catalog\Model\Product|null
      */
-    public function getCurrentProduct():?\Magento\Catalog\Model\Product
+    public function getCurrentProduct(): ?\Magento\Catalog\Model\Product
     {
         return $this->catalogHelper->getProduct();
     }

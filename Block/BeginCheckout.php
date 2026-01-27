@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2025 Fusion Lab G.P
+ * Copyright (c) 2026 Fusion Lab G.P
  * Website: https://fusionlab.gr
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,6 +20,5 @@ namespace FusionLab\Ga4\Block;
 
 class BeginCheckout extends ViewCart
 {
-
-    protected $_template = 'FusionLab_Ga4::begin-checkout.phtml';
+    protected $_template = "FusionLab_Ga4::begin-checkout.phtml";
 }

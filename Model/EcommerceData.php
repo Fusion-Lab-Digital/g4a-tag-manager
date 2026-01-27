@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2025 Fusion Lab G.P
+ * Copyright (c) 2026 Fusion Lab G.P
  * Website: https://fusionlab.gr
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,7 +23,6 @@ use Magento\Framework\DataObject;
 
 class EcommerceData extends DataObject implements EcommerceDataInterface
 {
-
     /**
      * @inheritDoc
      */
@@ -35,8 +34,9 @@ class EcommerceData extends DataObject implements EcommerceDataInterface
     /**
      * @inheritDoc
      */
-    public function setCurrency(string $currency): \FusionLab\Ga4\Api\Data\EcommerceDataInterface
-    {
+    public function setCurrency(
+        string $currency,
+    ): \FusionLab\Ga4\Api\Data\EcommerceDataInterface {
         return $this->setData(self::CURRENCY, $currency);
     }
 
@@ -51,8 +51,9 @@ class EcommerceData extends DataObject implements EcommerceDataInterface
     /**
      * @inheritDoc
      */
-    public function setTransactionId(string $transactonId): \FusionLab\Ga4\Api\Data\EcommerceDataInterface
-    {
+    public function setTransactionId(
+        string $transactonId,
+    ): \FusionLab\Ga4\Api\Data\EcommerceDataInterface {
         return $this->setData(self::TRANSACTION_ID, $transactonId);
     }
 
@@ -67,8 +68,9 @@ class EcommerceData extends DataObject implements EcommerceDataInterface
     /**
      * @inheritDoc
      */
-    public function setValue(float $value): \FusionLab\Ga4\Api\Data\EcommerceDataInterface
-    {
+    public function setValue(
+        float $value,
+    ): \FusionLab\Ga4\Api\Data\EcommerceDataInterface {
         return $this->setData(self::VALUE, $value);
     }
 
@@ -83,8 +85,9 @@ class EcommerceData extends DataObject implements EcommerceDataInterface
     /**
      * @inheritDoc
      */
-    public function setCoupon(string $coupon): \FusionLab\Ga4\Api\Data\EcommerceDataInterface
-    {
+    public function setCoupon(
+        string $coupon,
+    ): \FusionLab\Ga4\Api\Data\EcommerceDataInterface {
         return $this->setData(self::COUPON, $coupon);
     }
 
@@ -99,8 +102,9 @@ class EcommerceData extends DataObject implements EcommerceDataInterface
     /**
      * @inheritDoc
      */
-    public function setShipping(float $shipping = 0): \FusionLab\Ga4\Api\Data\EcommerceDataInterface
-    {
+    public function setShipping(
+        float $shipping = 0,
+    ): \FusionLab\Ga4\Api\Data\EcommerceDataInterface {
         return $this->setData(self::SHIPPING, $shipping);
     }
 
@@ -115,8 +119,9 @@ class EcommerceData extends DataObject implements EcommerceDataInterface
     /**
      * @inheritDoc
      */
-    public function setTax(float $tax): \FusionLab\Ga4\Api\Data\EcommerceDataInterface
-    {
+    public function setTax(
+        float $tax,
+    ): \FusionLab\Ga4\Api\Data\EcommerceDataInterface {
         return $this->setData(self::TAX, $tax);
     }
 
@@ -131,8 +136,9 @@ class EcommerceData extends DataObject implements EcommerceDataInterface
     /**
      * @inheritDoc
      */
-    public function setItemListId(?string $listId = null): \FusionLab\Ga4\Api\Data\EcommerceDataInterface
-    {
+    public function setItemListId(
+        ?string $listId = null,
+    ): \FusionLab\Ga4\Api\Data\EcommerceDataInterface {
         return $this->setData(self::ITEM_LIST_ID, $listId);
     }
 
@@ -147,8 +153,9 @@ class EcommerceData extends DataObject implements EcommerceDataInterface
     /**
      * @inheritDoc
      */
-    public function setItemListName(?string $listName = null): \FusionLab\Ga4\Api\Data\EcommerceDataInterface
-    {
+    public function setItemListName(
+        ?string $listName = null,
+    ): \FusionLab\Ga4\Api\Data\EcommerceDataInterface {
         return $this->setData(self::ITEM_LIST_NAME, $listName);
     }
 
@@ -163,8 +170,9 @@ class EcommerceData extends DataObject implements EcommerceDataInterface
     /**
      * @inheritDoc
      */
-    public function setItems(array $items): \FusionLab\Ga4\Api\Data\EcommerceDataInterface
-    {
+    public function setItems(
+        array $items,
+    ): \FusionLab\Ga4\Api\Data\EcommerceDataInterface {
         return $this->setData(self::ITEMS, $items);
     }
 }

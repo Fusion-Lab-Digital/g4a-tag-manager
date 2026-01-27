@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2025 Fusion Lab G.P
+ * Copyright (c) 2026 Fusion Lab G.P
  * Website: https://fusionlab.gr
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,17 +19,17 @@ namespace FusionLab\Ga4\Model\Adminhtml\Backend;
 
 class ContainerIdValidator extends \Magento\Framework\App\Config\Value
 {
-
     /**
      * @return ContainerIdValidator
      * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function beforeSave(): ContainerIdValidator
     {
-
         if (!preg_match('/^GTM-[a-zA-Z0-9]{7,9}$/', $this->getValue())) {
             throw new \Magento\Framework\Exception\LocalizedException(
-                __('Invalid GTM container ID. It should start with GTM- followed by 7 alphanumeric characters.')
+                __(
+                    "Invalid GTM container ID. It should start with GTM- followed by 7 alphanumeric characters.",
+                ),
             );
         }
 

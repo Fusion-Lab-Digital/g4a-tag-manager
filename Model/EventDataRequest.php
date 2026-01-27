@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2025 Fusion Lab G.P
+ * Copyright (c) 2026 Fusion Lab G.P
  * Website: https://fusionlab.gr
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,7 +24,6 @@ use Magento\Framework\DataObjectFactory;
 
 class EventDataRequest extends DataObject implements EventDataRequestInterface
 {
-
     /**
      * @inheritDoc
      */
@@ -36,8 +35,9 @@ class EventDataRequest extends DataObject implements EventDataRequestInterface
     /**
      * @inheritDoc
      */
-    public function setProductIds(array $ids): \FusionLab\Ga4\Api\Data\EventDataRequestInterface
-    {
+    public function setProductIds(
+        array $ids,
+    ): \FusionLab\Ga4\Api\Data\EventDataRequestInterface {
         return $this->setData(self::PRODUCT_IDS, $ids);
     }
 
@@ -52,8 +52,9 @@ class EventDataRequest extends DataObject implements EventDataRequestInterface
     /**
      * @inheritDoc
      */
-    public function setEventName(string $eventName): \FusionLab\Ga4\Api\Data\EventDataRequestInterface
-    {
+    public function setEventName(
+        string $eventName,
+    ): \FusionLab\Ga4\Api\Data\EventDataRequestInterface {
         return $this->setData(self::EVENT_NAME, $eventName);
     }
 
@@ -69,17 +70,20 @@ class EventDataRequest extends DataObject implements EventDataRequestInterface
      * @param mixed $data
      * @return EventDataRequestInterface
      */
-    public function setProductFormData($data): \FusionLab\Ga4\Api\Data\EventDataRequestInterface
-    {
-        $object = \Magento\Framework\App\ObjectManager::getInstance()->get(DataObjectFactory::class)->create();
+    public function setProductFormData(
+        $data,
+    ): \FusionLab\Ga4\Api\Data\EventDataRequestInterface {
+        $object = \Magento\Framework\App\ObjectManager::getInstance()
+            ->get(DataObjectFactory::class)
+            ->create();
         $output = [];
         $currentGroup = null;
         foreach ($data as $key => $value) {
-            preg_match('/([^\[]+)/', $key, $matches);
+            preg_match("/([^\[]+)/", $key, $matches);
             if (!empty($matches)) {
                 $currentGroup = $matches[1];
             }
-            preg_match('/\[(\d+)\]/', $key, $indexMatches);
+            preg_match("/\[(\d+)\]/", $key, $indexMatches);
             if (isset($indexMatches[1])) {
                 $index = (int) $indexMatches[1];
                 $output[$currentGroup][$index] = $value;
@@ -103,8 +107,9 @@ class EventDataRequest extends DataObject implements EventDataRequestInterface
     /**
      * @inheritDoc
      */
-    public function setCategories(array $categories): \FusionLab\Ga4\Api\Data\EventDataRequestInterface
-    {
+    public function setCategories(
+        array $categories,
+    ): \FusionLab\Ga4\Api\Data\EventDataRequestInterface {
         return $this->setData(self::CATEGORIES, $categories);
     }
 
@@ -119,8 +124,9 @@ class EventDataRequest extends DataObject implements EventDataRequestInterface
     /**
      * @inheritDoc
      */
-    public function setIncludeCategories(bool $value = true): \FusionLab\Ga4\Api\Data\EventDataRequestInterface
-    {
+    public function setIncludeCategories(
+        bool $value = true,
+    ): \FusionLab\Ga4\Api\Data\EventDataRequestInterface {
         return $this->setData(self::INCLUDE_CATEGORIES, $value);
     }
 }

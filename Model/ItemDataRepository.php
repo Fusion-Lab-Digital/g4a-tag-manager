@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2025 Fusion Lab G.P
+ * Copyright (c) 2026 Fusion Lab G.P
  * Website: https://fusionlab.gr
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -39,11 +39,7 @@ use Psr\Log\LoggerInterface;
 
 class ItemDataRepository implements ItemDataRepositoryInterface
 {
-
-    const SINGLE_QTY_EVENTS = [
-        'view_item_list',
-        'view_item',
-    ];
+    const SINGLE_QTY_EVENTS = ["view_item_list", "view_item"];
     const MAX_CATEGORIES = 5;
 
     private EcommerceDataInterfaceFactory $ecommerceDataFactory;
@@ -87,17 +83,17 @@ class ItemDataRepository implements ItemDataRepositoryInterface
      */
     public function __construct(
         EcommerceDataInterfaceFactory $ecommerceDataFactory,
-        EventDataInterfaceFactory     $eventDataInterfaceFactory,
+        EventDataInterfaceFactory $eventDataInterfaceFactory,
         ItemEventDataInterfaceFactory $itemEventDataInterfaceFactory,
-        ConfigProvider                $configProvider,
-        CollectionFactory             $collectionFactory,
-        StoreManagerInterface         $storeManager,
-        BundlePrice                   $bundlePrice,
-        Grouped                       $grouped,
-        ProductAttributeResolver      $attributeResolver,
+        ConfigProvider $configProvider,
+        CollectionFactory $collectionFactory,
+        StoreManagerInterface $storeManager,
+        BundlePrice $bundlePrice,
+        Grouped $grouped,
+        ProductAttributeResolver $attributeResolver,
         ResourceConnection $connection,
         CategoryRepositoryInterface $categoryRepository,
-        LoggerInterface             $logger
+        LoggerInterface $logger,
     ) {
         $this->ecommerceDataFactory = $ecommerceDataFactory;
         $this->eventDataInterfaceFactory = $eventDataInterfaceFactory;
@@ -116,8 +112,9 @@ class ItemDataRepository implements ItemDataRepositoryInterface
     /**
      * @inheritDoc
      */
-    public function getProductEventData(EventDataRequestInterface $request): ?\FusionLab\Ga4\Api\Data\EventDataInterface
-    {
+    public function getProductEventData(
+        EventDataRequestInterface $request,
+    ): ?\FusionLab\Ga4\Api\Data\EventDataInterface {
         if (!$this->configProvider->isEnabled()) {
             return null;
         }
@@ -147,17 +144,16 @@ class ItemDataRepository implements ItemDataRepositoryInterface
      */
     private function createCollection(array $ids): array
     {
-        return $this->collectionFactory->create()
+        return $this->collectionFactory
+            ->create()
             ->addStoreFilter($this->storeManager->getStore()->getId())
-            ->addAttributeToFilter('entity_id', ['in' => $ids])
-            ->addAttributeToSelect(
-                [
-                    'name',
-                    'price',
-                    'special_price',
-                    $this->configProvider->getProductBrandAttributeCode(),
-                ]
-            )
+            ->addAttributeToFilter("entity_id", ["in" => $ids])
+            ->addAttributeToSelect([
+                "name",
+                "price",
+                "special_price",
+                $this->configProvider->getProductBrandAttributeCode(),
+            ])
             ->getItems();
     }
 
@@ -166,27 +162,49 @@ class ItemDataRepository implements ItemDataRepositoryInterface
      * @param int $index
      * @return ItemEventDataInterface
      */
-    private function createItemEventData(ProductInterface $product, int $index = 0): ItemEventDataInterface
-    {
+    private function createItemEventData(
+        ProductInterface $product,
+        int $index = 0,
+    ): ItemEventDataInterface {
         /** @var ItemEventDataInterface $data */
         $data = $this->itemEventDataInterfaceFactory->create();
 
-        $data->setItemId($product->getData($this->configProvider->getProductIdentifier()));
+        $data->setItemId(
+            $product->getData($this->configProvider->getProductIdentifier()),
+        );
         $data->setItemName($product->getName());
         $data->setIndex($index);
         $data->setItemBrand($this->getItemBrand($product));
         $data->setPrice($this->getProductPrice($product));
-        if ($this->eventDataRequest->getEventName() === 'add_to_cart' && $this->eventDataRequest->getProductFormData()->hasData('qty')) {
-            $data->setPrice($data->getPrice() * $this->eventDataRequest->getProductFormData()->getData('qty'));
+        if (
+            $this->eventDataRequest->getEventName() === "add_to_cart" &&
+            $this->eventDataRequest->getProductFormData()->hasData("qty")
+        ) {
+            $data->setPrice(
+                $data->getPrice() *
+                    $this->eventDataRequest
+                        ->getProductFormData()
+                        ->getData("qty"),
+            );
         }
 
         $this->setProductCategories($data, $product);
 
-        if (in_array($this->eventDataRequest->getEventName(), self::SINGLE_QTY_EVENTS)) {
+        if (
+            in_array(
+                $this->eventDataRequest->getEventName(),
+                self::SINGLE_QTY_EVENTS,
+            )
+        ) {
             $data->setQuantity(1);
         }
 
-        if ($this->eventDataRequest->getProductFormData() && $this->eventDataRequest->getProductFormData()->hasData('super_attribute')) {
+        if (
+            $this->eventDataRequest->getProductFormData() &&
+            $this->eventDataRequest
+                ->getProductFormData()
+                ->hasData("super_attribute")
+        ) {
             $data->setItemVariant($this->getProductVariant());
         }
 
@@ -198,10 +216,15 @@ class ItemDataRepository implements ItemDataRepositoryInterface
      * @param ProductInterface $product
      * @return void
      */
-    private function setProductCategories(ItemEventDataInterface $data, ProductInterface $product): void
-    {
+    private function setProductCategories(
+        ItemEventDataInterface $data,
+        ProductInterface $product,
+    ): void {
         if ($this->eventDataRequest->getCategories()) {
-            $this->formatCategoriesIntoObject($data, $this->eventDataRequest->getCategories());
+            $this->formatCategoriesIntoObject(
+                $data,
+                $this->eventDataRequest->getCategories(),
+            );
             return;
         }
 
@@ -214,17 +237,20 @@ class ItemDataRepository implements ItemDataRepositoryInterface
         if (!$categoryIds) {
             return;
         }
-        $select = $this->connection->select()
-            ->from($this->connection->getTableName('catalog_category_entity'), ['path'])
-            ->where('entity_id in (?)', $categoryIds)
-            ->order('LENGTH(path) DESC')
+        $select = $this->connection
+            ->select()
+            ->from($this->connection->getTableName("catalog_category_entity"), [
+                "path",
+            ])
+            ->where("entity_id in (?)", $categoryIds)
+            ->order("LENGTH(path) DESC")
             ->limit(1);
 
         $deepestPath = $this->connection->fetchOne($select);
         if (!$deepestPath) {
             return;
         }
-        $deepestPath = explode('/', $deepestPath);
+        $deepestPath = explode("/", $deepestPath);
 
         foreach ($deepestPath as $id) {
             try {
@@ -250,18 +276,20 @@ class ItemDataRepository implements ItemDataRepositoryInterface
      * @param array $categories
      * @return void
      */
-    private function formatCategoriesIntoObject(ItemEventDataInterface $data, array $categories):void
-    {
+    private function formatCategoriesIntoObject(
+        ItemEventDataInterface $data,
+        array $categories,
+    ): void {
         if ($this->configProvider->shouldConcatCategories()) {
-            $data->setItemCategory(implode('/', $categories));
+            $data->setItemCategory(implode("/", $categories));
             return;
         }
 
         for ($i = 1; $i <= self::MAX_CATEGORIES; $i++) {
-            if (($i - 1) === 0) {
-                $function = 'setItemCategory';
+            if ($i - 1 === 0) {
+                $function = "setItemCategory";
             } else {
-                $function = 'setItemCategory' . ($i);
+                $function = "setItemCategory" . $i;
             }
             $key = $i - 1;
             if (isset($categories[$key])) {
@@ -276,11 +304,16 @@ class ItemDataRepository implements ItemDataRepositoryInterface
     private function getProductVariant(): string
     {
         $variant = [];
-        $attributes = $this->eventDataRequest->getProductFormData()->getData('super_attribute');
+        $attributes = $this->eventDataRequest
+            ->getProductFormData()
+            ->getData("super_attribute");
         foreach ($attributes as $key => $optionId) {
-            $variant[] = $this->attributeResolver->getAttributeLabel($key) . ': ' . $this->attributeResolver->getAttributeValue($key, $optionId);
+            $variant[] =
+                $this->attributeResolver->getAttributeLabel($key) .
+                ": " .
+                $this->attributeResolver->getAttributeValue($key, $optionId);
         }
-        return implode(', ', $variant);
+        return implode(", ", $variant);
     }
 
     /**
@@ -291,9 +324,11 @@ class ItemDataRepository implements ItemDataRepositoryInterface
     {
         switch ($product->getTypeId()) {
             case ProductType::TYPE_BUNDLE:
-                return $this->bundlePrice->getTotalPrices($product, 'min');
+                return $this->bundlePrice->getTotalPrices($product, "min");
             case Grouped::TYPE_CODE:
-                $associatedProducts = $this->grouped->getAssociatedProducts($product);
+                $associatedProducts = $this->grouped->getAssociatedProducts(
+                    $product,
+                );
                 $prices = [];
                 foreach ($associatedProducts as $associatedProduct) {
                     $prices[] = $associatedProduct->getFinalPrice();
@@ -310,7 +345,9 @@ class ItemDataRepository implements ItemDataRepositoryInterface
      */
     private function getItemBrand($product): ?string
     {
-        $brand = $product->getAttributeText($this->configProvider->getProductBrandAttributeCode());
+        $brand = $product->getAttributeText(
+            $this->configProvider->getProductBrandAttributeCode(),
+        );
         return is_string($brand) ? $brand : null;
     }
 
