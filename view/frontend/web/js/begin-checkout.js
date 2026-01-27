@@ -33,7 +33,7 @@ define([
     listenToAfterPushData() {
       var self = this;
       $(document).on("gtm:afterPushData", function (event, data) {
-        if (data.event === self.options.eventName) {
+        if (self.isCorrectEvent(data)) {
           window.gtm = {};
           window.gtm.begin_checkout = data;
           $(document).trigger("gtm:beginCheckoutInitialized");

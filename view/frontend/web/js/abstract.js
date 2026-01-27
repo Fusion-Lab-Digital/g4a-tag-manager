@@ -1,111 +1,93 @@
-define(
-    [
-    'jquery',
-    'FusionLab_Ga4/js/gtm'
+define(["jquery", "FusionLab_Ga4/js/gtm"], function ($, gtm) {
+  "use strict";
 
-    ],
-    function ($, gtm) {
-        'use strict';
+  $.widget("FusionLab.abstractGtm", {
+    options: {
+      eventName: "",
+      categories: [],
+    },
 
-        $.widget(
-            'FusionLab.abstractGtm',
-            {
+    _create: function () {
+      this._listenToEventDataLoad();
+      this._listenToBeforePush();
+    },
 
-                options: {
-                    eventName: '',
-                    categories: []
-                },
+    _listenToEventDataLoad() {
+      var self = this;
+      $(document).on("gtm:eventDataLoaded", function (event, data) {
+        if (self.canProceed(data)) {
+          gtm.addToDataLayer(data);
+        }
+      });
+    },
 
-                _create: function () {
-                    this._listenToEventDataLoad();
-                    this._listenToBeforePush();
-                },
+    _listenToBeforePush() {
+      var self = this;
+      $(document).on("gtm:beforePushData", function (event, data) {
+        self.sanitizeDataBeforePush(data);
+      });
+    },
 
-                _listenToEventDataLoad() {
-                    var self = this;
-                    $(document).on(
-                        'gtm:eventDataLoaded',
-                        function (event, data) {
-                            if (self.canProceed(data)) {
-                                gtm.addToDataLayer(data);
-                            }
-                        }
-                    );
-                },
+    sanitizeDataBeforePush(obj) {
+      var self = this;
 
-                _listenToBeforePush() {
-                    var self = this;
-                    $(document).on(
-                        'gtm:beforePushData',
-                        function (event, data) {
-                            self.sanitizeDataBeforePush(data);
-                        }
-                    )
-                },
+      if (typeof obj !== "object" || obj === null) {
+        return obj;
+      }
 
-                sanitizeDataBeforePush(obj) {
+      if (Array.isArray(obj)) {
+        const sanitizedArray = obj
+          .map(function (item) {
+            return self.sanitizeDataBeforePush(item);
+          })
+          .filter((item) => item !== null && item !== undefined);
 
-                    var self = this;
+        obj.length = 0;
+        Array.prototype.push.apply(obj, sanitizedArray);
+        return obj;
+      }
 
-                    if (typeof obj !== 'object' || obj === null) {
-                        return obj;
-                    }
+      for (const key in obj) {
+        if (obj.hasOwnProperty(key)) {
+          const sanitizedValue = self.sanitizeDataBeforePush(obj[key]);
+          if (sanitizedValue === null || sanitizedValue === undefined) {
+            delete obj[key];
+          } else {
+            obj[key] = sanitizedValue;
+          }
+        }
+      }
 
-                    if (Array.isArray(obj)) {
-                        const sanitizedArray = obj.map(
-                            function (item) {
-                                return self.sanitizeDataBeforePush(item);
-                            }
-                        ).filter(item => item !== null && item !== undefined);
+      return obj;
+    },
 
-                        obj.length = 0;
-                        Array.prototype.push.apply(obj, sanitizedArray);
-                        return obj;
-                    }
+    canProceed(data) {
+      return data && this.isCorrectEvent(data);
+    },
 
-                    for (const key in obj) {
-                        if (obj.hasOwnProperty(key)) {
-                            const sanitizedValue = self.sanitizeDataBeforePush(obj[key]);
-                            if (sanitizedValue === null || sanitizedValue === undefined) {
-                                delete obj[key];
-                            } else {
-                                obj[key] = sanitizedValue;
-                            }
-                        }
-                    }
+    isCorrectEvent(data) {
+      return (
+        data.hasOwnProperty("event") && data.event === this.options.eventName
+      );
+    },
 
-                    return obj;
-                },
+    createRequest(ids) {
+      var request = {};
+      request.event_name = this.options.eventName;
+      request.product_ids = ids;
+      request.categories = this.options.categories.map(function (item) {
+        return item.label;
+      });
 
-                canProceed(data) {
-                    return data && data.hasOwnProperty('event')
-                    && data.event === this.options.eventName;
-                },
+      return request;
+    },
 
-                createRequest(ids) {
-                    var request = {};
-                    request.event_name = this.options.eventName;
-                    request.product_ids = ids;
-                    request.categories = this.options.categories.map(
-                        function (item) {
-                            return item.label;
-                        }
-                    );
+    sanitizeCategories() {
+      this.options.categories = this.options.categories.filter(function (item) {
+        return item.id !== "product";
+      });
+    },
+  });
 
-                return request;
-                },
-
-                sanitizeCategories() {
-                    this.options.categories = this.options.categories.filter(
-                        function (item) {
-                            return item.id !== 'product';
-                        }
-                    );
-                },
-
-            }
-        );
-
-        return $.FusionLab.abstractGtm;
-    }
-);
+  return $.FusionLab.abstractGtm;
+});

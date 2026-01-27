@@ -26,6 +26,7 @@
             <block class="FusionLab\Ga4\Block\Head" name="FusionLab.ga4.noscript" template="FusionLab_Ga4::noscript.phtml" />
         </referenceContainer>
         <referenceContainer name="before.body.end">
+            <block class="FusionLab\Ga4\Block\Login" name="FusionLab.ga4.login"/>
             <block class="FusionLab\Ga4\Block\RemoveItem" name="FusionLab.ga4.remove-item"/>
             <block class="FusionLab\Ga4\Block\AddToCart" name="FusionLab.ga4.add-to-cart"/>
         </referenceContainer>
