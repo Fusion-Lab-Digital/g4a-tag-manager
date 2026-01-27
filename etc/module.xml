@@ -19,7 +19,7 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
-    <module name="FusionLab_Ga4" setup_version="0.1.0" >
+    <module name="FusionLab_Ga4" setup_version="0.1.3" >
         <sequence>
             <module name="Magento_Catalog" />
             <module name="FusionLab_Core" />

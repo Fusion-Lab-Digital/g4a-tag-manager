@@ -26,10 +26,9 @@ use Psr\Log\LoggerInterface;
 
 class Head extends AbstractConfig
 {
+    protected $_template = "FusionLab_Ga4::head.phtml";
 
-    protected $_template = 'FusionLab_Ga4::head.phtml';
-
-    private ?\Magento\Csp\Helper\CspNonceProvider $cspNonceProvider;
+    private ?\Magento\Csp\Helper\CspNonceProvider $cspNonceProvider = null;
 
     /**
      * @param ConfigProvider $configProvider
@@ -47,14 +46,23 @@ class Head extends AbstractConfig
         LoggerInterface $logger,
         Context $context,
         $cspNonceProvider,
-        array $data = []
+        array $data = [],
     ) {
         $this->cspNonceProvider = $cspNonceProvider;
 
-        if(class_exists('Magento\Csp\Helper\CspNonceProvider')) {
-            $this->cspNonceProvider = \Magento\Framework\App\ObjectManager::getInstance()->get('Magento\Csp\Helper\CspNonceProvider');
+        if (class_exists("Magento\Csp\Helper\CspNonceProvider")) {
+            $this->cspNonceProvider = \Magento\Framework\App\ObjectManager::getInstance()->get(
+                "Magento\Csp\Helper\CspNonceProvider",
+            );
         }
-        parent::__construct($configProvider, $catalogHelper, $connection, $logger, $context, $data);
+        parent::__construct(
+            $configProvider,
+            $catalogHelper,
+            $connection,
+            $logger,
+            $context,
+            $data,
+        );
     }
 
     /**
@@ -71,9 +79,9 @@ class Head extends AbstractConfig
      */
     public function getCspNonce(): string
     {
-        if($this->cspNonceProvider) {
+        if ($this->cspNonceProvider) {
             return $this->cspNonceProvider->generateNonce();
         }
-        return '';
+        return "";
     }
 }

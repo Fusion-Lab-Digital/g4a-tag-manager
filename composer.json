@@ -1,20 +1,22 @@
 {
-    "name": "fusionlab-digital/ga4-tag-manager",
-    "description": "Google Tag Manager Google Analytics 4",
-    "type": "magento2-module",
-    "version": "0.1.2",
-    "license": ["Apache-2.0"],
-    "autoload": {
-        "files": [
-            "registration.php"
-        ],
-        "psr-4": {
-            "FusionLab\\Ga4\\": ""
-        }
-    },
-    "require": {
-        "magento/framework": ">=103.0.0",
-        "fusionlab-digital/core": ">=0.1.0",
-        "php": ">= 7.4"
+  "name": "fusionlab-digital/ga4-tag-manager",
+  "description": "Google Tag Manager Google Analytics 4",
+  "type": "magento2-module",
+  "version": "0.1.3",
+  "license": [
+    "Apache-2.0"
+  ],
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "FusionLab\\Ga4\\": ""
     }
+  },
+  "require": {
+    "magento/framework": ">=103.0.0",
+    "fusionlab-digital/core": ">=0.1.0",
+    "php": ">= 7.4"
+  }
 }
