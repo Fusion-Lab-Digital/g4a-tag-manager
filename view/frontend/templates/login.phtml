@@ -15,9 +15,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+/** @var \FusionLab\Ga4\Block\Login $block */
+?>
 
-\Magento\Framework\Component\ComponentRegistrar::register(
-    \Magento\Framework\Component\ComponentRegistrar::MODULE,
-    "FusionLab_Ga4",
-    __DIR__,
-);
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "FusionLab_Ga4/js/login": <?php echo $block->getJsLayout() ?>
+    }
+}
+</script>

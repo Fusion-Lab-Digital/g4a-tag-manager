@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2025 Fusion Lab G.P
+ * Copyright (c) 2026 Fusion Lab G.P
  * Website: https://fusionlab.gr
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,8 +30,7 @@ use Psr\Log\LoggerInterface;
 
 class ViewCart extends AbstractConfig
 {
-
-    protected $_template = 'FusionLab_Ga4::view-cart.phtml';
+    protected $_template = "FusionLab_Ga4::view-cart.phtml";
 
     private Session $session;
 
@@ -48,16 +47,23 @@ class ViewCart extends AbstractConfig
      */
     public function __construct(
         ConfigProvider $configProvider,
-        Data           $catalogHelper,
+        Data $catalogHelper,
         ResourceConnection $connection,
         LoggerInterface $logger,
-        Context        $context,
-        Session        $session,
-        array          $data = []
+        Context $context,
+        Session $session,
+        array $data = [],
     ) {
         $this->session = $session;
         $this->getQuote();
-        parent::__construct($configProvider, $catalogHelper, $connection, $logger, $context, $data);
+        parent::__construct(
+            $configProvider,
+            $catalogHelper,
+            $connection,
+            $logger,
+            $context,
+            $data,
+        );
     }
 
     /**
@@ -65,7 +71,7 @@ class ViewCart extends AbstractConfig
      */
     protected function _prepareLayout()
     {
-        $this->jsLayout['currency'] = $this->getCurrencyCode();
+        $this->jsLayout["currency"] = $this->getCurrencyCode();
         $this->getCartInfo();
         return parent::_prepareLayout();
     }
@@ -82,21 +88,32 @@ class ViewCart extends AbstractConfig
         $items = $this->quote->getAllVisibleItems();
         foreach ($items as $item) {
             $productId = $item->getProductId();
-            if ($item->getData('has_children')) {
+            if ($item->getData("has_children")) {
                 $productId = $this->getProductIdBySku($item->getSku());
             }
-            if (!isset($this->jsLayout['productIds']) || !in_array($productId, $this->jsLayout['productIds'])) {
-                $this->jsLayout['productIds'][] = $productId;
-                $this->jsLayout['quantity'][$productId] = $item->getQty();
-                $this->jsLayout['quantity'][$item->getProduct()->getData('sku')] = $item->getQty();
-                $this->jsLayout['quantity'][$item->getSku()] = (float) $item->getQty();
-                $this->jsLayout['price'][$productId] = $item->getPriceInclTax();
-                $this->jsLayout['price'][$item->getProduct()->getData('sku')] = $item->getPriceInclTax();
-                $this->jsLayout['price'][$item->getSku()] = (float)$item->getPriceInclTax();
-                $value = $value + ($item->getPriceInclTax() * $item->getQty());
+            if (
+                !isset($this->jsLayout["productIds"]) ||
+                !in_array($productId, $this->jsLayout["productIds"])
+            ) {
+                $this->jsLayout["productIds"][] = $productId;
+                $this->jsLayout["quantity"][$productId] = $item->getQty();
+                $this->jsLayout["quantity"][
+                    $item->getProduct()->getData("sku")
+                ] = $item->getQty();
+                $this->jsLayout["quantity"][
+                    $item->getSku()
+                ] = (float) $item->getQty();
+                $this->jsLayout["price"][$productId] = $item->getPriceInclTax();
+                $this->jsLayout["price"][
+                    $item->getProduct()->getData("sku")
+                ] = $item->getPriceInclTax();
+                $this->jsLayout["price"][
+                    $item->getSku()
+                ] = (float) $item->getPriceInclTax();
+                $value = $value + $item->getPriceInclTax() * $item->getQty();
             }
         }
-        $this->jsLayout['value'] = $value;
+        $this->jsLayout["value"] = $value;
     }
 
     /**

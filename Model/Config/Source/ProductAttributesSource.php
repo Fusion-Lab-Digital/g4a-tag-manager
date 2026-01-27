@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2025 Fusion Lab G.P
+ * Copyright (c) 2026 Fusion Lab G.P
  * Website: https://fusionlab.gr
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,7 +24,6 @@ use Magento\Framework\DB\Adapter\AdapterInterface;
 
 class ProductAttributesSource implements OptionSourceInterface
 {
-
     /**
      * @var AdapterInterface
      */
@@ -41,22 +40,29 @@ class ProductAttributesSource implements OptionSourceInterface
     /**
      * @inheritDoc
      */
-    public function toOptionArray():array
+    public function toOptionArray(): array
     {
         $attributes = $this->getAllAttributes();
 
-        array_multisort(array_column($attributes, 'attribute_code'), $attributes);
+        array_multisort(
+            array_column($attributes, "attribute_code"),
+            $attributes,
+        );
 
         $result = [];
         $result[] = [
-            'label' => __('--Select Attribute--'),
-            'value' => null,
+            "label" => __("--Select Attribute--"),
+            "value" => null,
         ];
 
         foreach ($attributes as $attribute) {
             $result[] = [
-                'label' => '(ID:' . $attribute['attribute_id'] . ') ' . $attribute['frontend_label'],
-                'value' => $attribute['attribute_code'],
+                "label" =>
+                    "(ID:" .
+                    $attribute["attribute_id"] .
+                    ") " .
+                    $attribute["frontend_label"],
+                "value" => $attribute["attribute_code"],
             ];
         }
 
@@ -68,11 +74,16 @@ class ProductAttributesSource implements OptionSourceInterface
      */
     private function getAllAttributes(): array
     {
-        $select = $this->connection->select()
-            ->from($this->connection->getTableName('eav_attribute'), ['attribute_id', 'attribute_code', 'frontend_label'])
-            ->where('entity_type_id = ?', 4)
-            ->where('backend_type in (?)', ['text', 'varchar', 'int'])
-            ->where('frontend_label IS NOT NULL');
+        $select = $this->connection
+            ->select()
+            ->from($this->connection->getTableName("eav_attribute"), [
+                "attribute_id",
+                "attribute_code",
+                "frontend_label",
+            ])
+            ->where("entity_type_id = ?", 4)
+            ->where("backend_type in (?)", ["text", "varchar", "int"])
+            ->where("frontend_label IS NOT NULL");
 
         return $this->connection->fetchAll($select);
     }

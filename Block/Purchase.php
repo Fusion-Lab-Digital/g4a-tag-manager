@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2025 Fusion Lab G.P
+ * Copyright (c) 2026 Fusion Lab G.P
  * Website: https://fusionlab.gr
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,8 +27,7 @@ use Psr\Log\LoggerInterface;
 
 class Purchase extends AbstractConfig
 {
-
-    protected $_template = 'FusionLab_Ga4::purchase.phtml';
+    protected $_template = "FusionLab_Ga4::purchase.phtml";
 
     private Session $checkoutSession;
 
@@ -42,16 +41,23 @@ class Purchase extends AbstractConfig
      * @param array $data
      */
     public function __construct(
-        ConfigProvider           $configProvider,
-        Data                     $catalogHelper,
+        ConfigProvider $configProvider,
+        Data $catalogHelper,
         ResourceConnection $connection,
-        LoggerInterface         $logger,
-        Context                  $context,
-        Session                  $checkoutSession,
-        array                    $data = []
+        LoggerInterface $logger,
+        Context $context,
+        Session $checkoutSession,
+        array $data = [],
     ) {
         $this->checkoutSession = $checkoutSession;
-        parent::__construct($configProvider, $catalogHelper, $connection, $logger, $context, $data);
+        parent::__construct(
+            $configProvider,
+            $catalogHelper,
+            $connection,
+            $logger,
+            $context,
+            $data,
+        );
     }
 
     /**
@@ -64,28 +70,41 @@ class Purchase extends AbstractConfig
             return parent::_prepareLayout();
         }
         $items = $order->getAllVisibleItems();
-        $this->jsLayout['currency'] = $order->getStoreCurrencyCode();
+        $this->jsLayout["currency"] = $order->getStoreCurrencyCode();
 
         foreach ($items as $item) {
             $productId = $item->getProductId();
-            if ($item->getData('has_children')) {
+            if ($item->getData("has_children")) {
                 $productId = $this->getProductIdBySku($item->getSku());
             }
-            if (!isset($this->jsLayout['productIds']) || !in_array($productId, $this->jsLayout['productIds'])) {
-                $this->jsLayout['productIds'][] = $productId;
-                $this->jsLayout['quantity'][$productId] = (float) $item->getQtyOrdered();
-                $this->jsLayout['quantity'][$item->getProduct()->getData('sku')] = (float) $item->getQtyOrdered();
-                $this->jsLayout['quantity'][$item->getSku()] = (float) $item->getQtyOrdered();
-                $this->jsLayout['price'][$productId] = $item->getPriceInclTax();
-                $this->jsLayout['price'][$item->getProduct()->getData('sku')] = $item->getPriceInclTax();
-                $this->jsLayout['price'][$item->getSku()] = (float) $item->getPriceInclTax();
+            if (
+                !isset($this->jsLayout["productIds"]) ||
+                !in_array($productId, $this->jsLayout["productIds"])
+            ) {
+                $this->jsLayout["productIds"][] = $productId;
+                $this->jsLayout["quantity"][
+                    $productId
+                ] = (float) $item->getQtyOrdered();
+                $this->jsLayout["quantity"][
+                    $item->getProduct()->getData("sku")
+                ] = (float) $item->getQtyOrdered();
+                $this->jsLayout["quantity"][
+                    $item->getSku()
+                ] = (float) $item->getQtyOrdered();
+                $this->jsLayout["price"][$productId] = $item->getPriceInclTax();
+                $this->jsLayout["price"][
+                    $item->getProduct()->getData("sku")
+                ] = $item->getPriceInclTax();
+                $this->jsLayout["price"][
+                    $item->getSku()
+                ] = (float) $item->getPriceInclTax();
             }
         }
-        $this->jsLayout['value'] = (float) $order->getGrandTotal();
-        $this->jsLayout['tax'] = (float) $order->getTaxAmount();
-        $this->jsLayout['shipping'] = (float) $order->getShippingAmount();
-        $this->jsLayout['transaction_id'] = $order->getIncrementId();
-        $this->jsLayout['coupon'] = $order->getCouponCode();
+        $this->jsLayout["value"] = (float) $order->getGrandTotal();
+        $this->jsLayout["tax"] = (float) $order->getTaxAmount();
+        $this->jsLayout["shipping"] = (float) $order->getShippingAmount();
+        $this->jsLayout["transaction_id"] = $order->getIncrementId();
+        $this->jsLayout["coupon"] = $order->getCouponCode();
         return parent::_prepareLayout();
     }
 }

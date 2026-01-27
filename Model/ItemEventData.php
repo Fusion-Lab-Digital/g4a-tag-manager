@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2025 Fusion Lab G.P
+ * Copyright (c) 2026 Fusion Lab G.P
  * Website: https://fusionlab.gr
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,7 +23,6 @@ use Magento\Framework\DataObject;
 
 class ItemEventData extends DataObject implements ItemEventDataInterface
 {
-
     /**
      * @inheritDoc
      */
@@ -35,8 +34,9 @@ class ItemEventData extends DataObject implements ItemEventDataInterface
     /**
      * @inheritDoc
      */
-    public function setItemId(string $id): \FusionLab\Ga4\Api\Data\ItemEventDataInterface
-    {
+    public function setItemId(
+        string $id,
+    ): \FusionLab\Ga4\Api\Data\ItemEventDataInterface {
         return $this->setData(self::ITEM_ID, $id);
     }
 
@@ -51,8 +51,9 @@ class ItemEventData extends DataObject implements ItemEventDataInterface
     /**
      * @inheritDoc
      */
-    public function setItemName(string $name): \FusionLab\Ga4\Api\Data\ItemEventDataInterface
-    {
+    public function setItemName(
+        string $name,
+    ): \FusionLab\Ga4\Api\Data\ItemEventDataInterface {
         return $this->setData(self::ITEM_NAME, $name);
     }
 
@@ -67,8 +68,9 @@ class ItemEventData extends DataObject implements ItemEventDataInterface
     /**
      * @inheritDoc
      */
-    public function setAffilation(string $affilation): \FusionLab\Ga4\Api\Data\ItemEventDataInterface
-    {
+    public function setAffilation(
+        string $affilation,
+    ): \FusionLab\Ga4\Api\Data\ItemEventDataInterface {
         return $this->setData(self::AFFILATION, $affilation);
     }
 
@@ -83,8 +85,9 @@ class ItemEventData extends DataObject implements ItemEventDataInterface
     /**
      * @inheritDoc
      */
-    public function setCoupon(string $coupon): \FusionLab\Ga4\Api\Data\ItemEventDataInterface
-    {
+    public function setCoupon(
+        string $coupon,
+    ): \FusionLab\Ga4\Api\Data\ItemEventDataInterface {
         return $this->setData(self::COUPON, $coupon);
     }
 
@@ -99,8 +102,9 @@ class ItemEventData extends DataObject implements ItemEventDataInterface
     /**
      * @inheritDoc
      */
-    public function setDiscount(float $discount): \FusionLab\Ga4\Api\Data\ItemEventDataInterface
-    {
+    public function setDiscount(
+        float $discount,
+    ): \FusionLab\Ga4\Api\Data\ItemEventDataInterface {
         return $this->setData(self::DISCOUNT, $discount);
     }
 
@@ -115,8 +119,9 @@ class ItemEventData extends DataObject implements ItemEventDataInterface
     /**
      * @inheritDoc
      */
-    public function setIndex(int $index): \FusionLab\Ga4\Api\Data\ItemEventDataInterface
-    {
+    public function setIndex(
+        int $index,
+    ): \FusionLab\Ga4\Api\Data\ItemEventDataInterface {
         return $this->setData(self::INDEX, $index);
     }
 
@@ -131,8 +136,9 @@ class ItemEventData extends DataObject implements ItemEventDataInterface
     /**
      * @inheritDoc
      */
-    public function setItemBrand(?string $brand): \FusionLab\Ga4\Api\Data\ItemEventDataInterface
-    {
+    public function setItemBrand(
+        ?string $brand,
+    ): \FusionLab\Ga4\Api\Data\ItemEventDataInterface {
         return $this->setData(self::ITEM_BRAND, $brand);
     }
 
@@ -147,8 +153,9 @@ class ItemEventData extends DataObject implements ItemEventDataInterface
     /**
      * @inheritDoc
      */
-    public function setItemCategory(string $category): \FusionLab\Ga4\Api\Data\ItemEventDataInterface
-    {
+    public function setItemCategory(
+        string $category,
+    ): \FusionLab\Ga4\Api\Data\ItemEventDataInterface {
         return $this->setData(self::ITEM_CATEGORY, $category);
     }
 
@@ -163,8 +170,9 @@ class ItemEventData extends DataObject implements ItemEventDataInterface
     /**
      * @inheritDoc
      */
-    public function setItemCategory2(string $category): \FusionLab\Ga4\Api\Data\ItemEventDataInterface
-    {
+    public function setItemCategory2(
+        string $category,
+    ): \FusionLab\Ga4\Api\Data\ItemEventDataInterface {
         return $this->setData(self::ITEM_CATEGORY2, $category);
     }
 
@@ -179,8 +187,9 @@ class ItemEventData extends DataObject implements ItemEventDataInterface
     /**
      * @inheritDoc
      */
-    public function setItemCategory3(string $category): \FusionLab\Ga4\Api\Data\ItemEventDataInterface
-    {
+    public function setItemCategory3(
+        string $category,
+    ): \FusionLab\Ga4\Api\Data\ItemEventDataInterface {
         return $this->setData(self::ITEM_CATEGORY3, $category);
     }
 
@@ -195,8 +204,9 @@ class ItemEventData extends DataObject implements ItemEventDataInterface
     /**
      * @inheritDoc
      */
-    public function setItemCategory4(string $category): \FusionLab\Ga4\Api\Data\ItemEventDataInterface
-    {
+    public function setItemCategory4(
+        string $category,
+    ): \FusionLab\Ga4\Api\Data\ItemEventDataInterface {
         return $this->setData(self::ITEM_CATEGORY4, $category);
     }
 
@@ -211,8 +221,9 @@ class ItemEventData extends DataObject implements ItemEventDataInterface
     /**
      * @inheritDoc
      */
-    public function setItemCategory5(string $category): \FusionLab\Ga4\Api\Data\ItemEventDataInterface
-    {
+    public function setItemCategory5(
+        string $category,
+    ): \FusionLab\Ga4\Api\Data\ItemEventDataInterface {
         return $this->setData(self::ITEM_CATEGORY5, $category);
     }
 
@@ -227,8 +238,9 @@ class ItemEventData extends DataObject implements ItemEventDataInterface
     /**
      * @inheritDoc
      */
-    public function setItemListId(string $listId): \FusionLab\Ga4\Api\Data\ItemEventDataInterface
-    {
+    public function setItemListId(
+        string $listId,
+    ): \FusionLab\Ga4\Api\Data\ItemEventDataInterface {
         return $this->setData(self::ITEM_LIST_ID, $listId);
     }
 
@@ -243,8 +255,9 @@ class ItemEventData extends DataObject implements ItemEventDataInterface
     /**
      * @inheritDoc
      */
-    public function setItemListName(string $listName): \FusionLab\Ga4\Api\Data\ItemEventDataInterface
-    {
+    public function setItemListName(
+        string $listName,
+    ): \FusionLab\Ga4\Api\Data\ItemEventDataInterface {
         return $this->setData(self::ITEM_LIST_NAME, $listName);
     }
 
@@ -259,8 +272,9 @@ class ItemEventData extends DataObject implements ItemEventDataInterface
     /**
      * @inheritDoc
      */
-    public function setItemVariant(string $variant): \FusionLab\Ga4\Api\Data\ItemEventDataInterface
-    {
+    public function setItemVariant(
+        string $variant,
+    ): \FusionLab\Ga4\Api\Data\ItemEventDataInterface {
         return $this->setData(self::ITEM_VARIANT, $variant);
     }
 
@@ -275,8 +289,9 @@ class ItemEventData extends DataObject implements ItemEventDataInterface
     /**
      * @inheritDoc
      */
-    public function setPrice(float $price): \FusionLab\Ga4\Api\Data\ItemEventDataInterface
-    {
+    public function setPrice(
+        float $price,
+    ): \FusionLab\Ga4\Api\Data\ItemEventDataInterface {
         return $this->setData(self::PRICE, $price);
     }
 
@@ -291,8 +306,9 @@ class ItemEventData extends DataObject implements ItemEventDataInterface
     /**
      * @inheritDoc
      */
-    public function setQuantity(int $qty): \FusionLab\Ga4\Api\Data\ItemEventDataInterface
-    {
+    public function setQuantity(
+        int $qty,
+    ): \FusionLab\Ga4\Api\Data\ItemEventDataInterface {
         return $this->setData(self::QUANTITY, $qty);
     }
 }

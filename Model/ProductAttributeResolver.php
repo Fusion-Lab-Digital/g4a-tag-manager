@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2025 Fusion Lab G.P
+ * Copyright (c) 2026 Fusion Lab G.P
  * Website: https://fusionlab.gr
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,7 +26,6 @@ use Psr\Log\LoggerInterface;
 
 class ProductAttributeResolver
 {
-
     private Attribute $attribute;
 
     private AdapterInterface $connection;
@@ -41,9 +40,9 @@ class ProductAttributeResolver
      * @param LoggerInterface $logger
      */
     public function __construct(
-        Attribute          $attribute,
+        Attribute $attribute,
         ResourceConnection $connection,
-        LoggerInterface $logger
+        LoggerInterface $logger,
     ) {
         $this->attribute = $attribute;
         $this->connection = $connection->getConnection();
@@ -74,7 +73,7 @@ class ProductAttributeResolver
             }
         }
 
-        return '';
+        return "";
     }
 
     /**
@@ -85,12 +84,19 @@ class ProductAttributeResolver
     {
         if (!array_key_exists($attributeId, $this->loadedAttributes)) {
             try {
-                $this->loadedAttributes[$attributeId] = $this->attribute->loadByCode(4, $this->getAttributeCodeById($attributeId));
+                $this->loadedAttributes[
+                    $attributeId
+                ] = $this->attribute->loadByCode(
+                    4,
+                    $this->getAttributeCodeById($attributeId),
+                );
             } catch (LocalizedException $e) {
                 $this->logger->critical($e);
             }
         }
-        return array_key_exists($attributeId, $this->loadedAttributes) ? $this->loadedAttributes[$attributeId] : null;
+        return array_key_exists($attributeId, $this->loadedAttributes)
+            ? $this->loadedAttributes[$attributeId]
+            : null;
     }
 
     /**
@@ -99,9 +105,10 @@ class ProductAttributeResolver
      */
     public function getAttributeCodeById(int $attributeId): ?string
     {
-        $select = $this->connection->select()
-            ->from('eav_attribute', ['attribute_code'])
-            ->where('attribute_id = ? ', $attributeId);
+        $select = $this->connection
+            ->select()
+            ->from("eav_attribute", ["attribute_code"])
+            ->where("attribute_id = ? ", $attributeId);
 
         return $this->connection->fetchOne($select);
     }

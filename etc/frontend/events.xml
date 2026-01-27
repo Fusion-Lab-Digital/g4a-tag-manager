@@ -1,4 +1,5 @@
-<?php
+<?xml version="1.0"?>
+<!--
 /**
  * Copyright (c) 2026 Fusion Lab G.P
  * Website: https://fusionlab.gr
@@ -15,9 +16,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-\Magento\Framework\Component\ComponentRegistrar::register(
-    \Magento\Framework\Component\ComponentRegistrar::MODULE,
-    "FusionLab_Ga4",
-    __DIR__,
-);
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="customer_login">
+        <observer name="FusionLab_Ga4::login_event"
+                  instance="FusionLab\Ga4\Observer\SetLoginOnceFlag"/>
+    </event>
+</config>

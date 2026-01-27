@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2025 Fusion Lab G.P
+ * Copyright (c) 2026 Fusion Lab G.P
  * Website: https://fusionlab.gr
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,8 +24,7 @@ use Magento\Framework\Serialize\Serializer\Json;
 
 class GtmJson extends Field
 {
-
-    protected $_template = 'FusionLab_Ga4::json-download.phtml';
+    protected $_template = "FusionLab_Ga4::json-download.phtml";
 
     /**
      * @var Json
@@ -40,7 +39,7 @@ class GtmJson extends Field
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         Json $jsonEncoder,
-        array $data = []
+        array $data = [],
     ) {
         parent::__construct($context, $data);
         $this->jsonEncoder = $jsonEncoder;
@@ -64,13 +63,11 @@ class GtmJson extends Field
      */
     protected function _getElementHtml(AbstractElement $element)
     {
-        $this->addData(
-            [
-                'button_label' => __('Download Json'),
-                'html_id' => $element->getHtmlId(),
-                'json_config' => $this->generateButtonConfig($element),
-            ]
-        );
+        $this->addData([
+            "button_label" => __("Download Json"),
+            "html_id" => $element->getHtmlId(),
+            "json_config" => $this->generateButtonConfig($element),
+        ]);
 
         return $this->_toHtml();
     }
@@ -81,7 +78,7 @@ class GtmJson extends Field
      */
     private function generateButtonConfig(AbstractElement $element)
     {
-        $result = ['elementId' => $element->getHtmlId()];
+        $result = ["elementId" => $element->getHtmlId()];
         return $this->jsonEncoder->serialize($result);
     }
 
@@ -90,6 +87,6 @@ class GtmJson extends Field
      */
     public function getJsonFileUrl()
     {
-        return $this->getViewFileUrl('FusionLab_Ga4::ga4_gtm_setup.json');
+        return $this->getViewFileUrl("FusionLab_Ga4::ga4_gtm_setup.json");
     }
 }

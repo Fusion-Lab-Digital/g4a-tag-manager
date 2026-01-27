@@ -19,23 +19,25 @@
 namespace FusionLab\Ga4\Block;
 
 use FusionLab\Ga4\Model\ConfigProvider;
+use FusionLab\Ga4\Observer\SetLoginOnceFlag;
 use Magento\Catalog\Helper\Data;
+use Magento\Customer\Model\Session;
 use Magento\Framework\App\ResourceConnection;
 use Magento\Framework\View\Element\Template\Context;
 use Psr\Log\LoggerInterface;
 
-class Head extends AbstractConfig
+class Login extends AbstractConfig
 {
-    protected $_template = "FusionLab_Ga4::head.phtml";
+    protected $_template = "FusionLab_Ga4::login.phtml";
 
-    private ?\Magento\Csp\Helper\CspNonceProvider $cspNonceProvider = null;
+    private Session $customerSession;
 
     /**
      * @param ConfigProvider $configProvider
      * @param Data $catalogHelper
      * @param ResourceConnection $connection
      * @param LoggerInterface $logger
-     * @param \Magento\Csp\Helper\CspNonceProvider|null $cspNonceProvider
+     * @param Session $customerSession
      * @param Context $context
      * @param array $data
      */
@@ -44,17 +46,11 @@ class Head extends AbstractConfig
         Data $catalogHelper,
         ResourceConnection $connection,
         LoggerInterface $logger,
+        Session $customerSession,
         Context $context,
-        $cspNonceProvider,
         array $data = [],
     ) {
-        $this->cspNonceProvider = $cspNonceProvider;
-
-        if (class_exists("Magento\Csp\Helper\CspNonceProvider")) {
-            $this->cspNonceProvider = \Magento\Framework\App\ObjectManager::getInstance()->get(
-                "Magento\Csp\Helper\CspNonceProvider",
-            );
-        }
+        $this->customerSession = $customerSession;
         parent::__construct(
             $configProvider,
             $catalogHelper,
@@ -66,22 +62,30 @@ class Head extends AbstractConfig
     }
 
     /**
-     * @return string
+     * @return AbstractConfig
      */
-    public function getContainerId(): string
+    protected function _prepareLayout()
     {
-        return $this->configProvider->getGoogleTagManagerId();
-    }
-
-    /**
-     * @return string
-     * @throws \Magento\Framework\Exception\LocalizedException
-     */
-    public function getCspNonce(): string
-    {
-        if ($this->cspNonceProvider) {
-            return $this->cspNonceProvider->generateNonce();
+        $parent = parent::_prepareLayout();
+        if (
+            !$this->customerSession->getData(
+                SetLoginOnceFlag::FLAG_FUSION_LAB_JUST_LOGGED_IN,
+            )
+        ) {
+            $this->setTemplate(null);
         }
-        return "";
+
+        //So it runs the login event only once.
+        if (
+            $this->customerSession->hasData(
+                SetLoginOnceFlag::FLAG_FUSION_LAB_JUST_LOGGED_IN,
+            )
+        ) {
+            $this->customerSession->unsetData(
+                SetLoginOnceFlag::FLAG_FUSION_LAB_JUST_LOGGED_IN,
+            );
+        }
+
+        return $parent;
     }
 }

@@ -1,4 +1,5 @@
-<?php
+<?xml version="1.0"?>
+<!--
 /**
  * Copyright (c) 2026 Fusion Lab G.P
  * Website: https://fusionlab.gr
@@ -15,9 +16,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-\Magento\Framework\Component\ComponentRegistrar::register(
-    \Magento\Framework\Component\ComponentRegistrar::MODULE,
-    "FusionLab_Ga4",
-    __DIR__,
-);
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="2columns-left"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="before.body.end">
+            <block class="FusionLab\Ga4\Block\Search" name="FusionLab.ga4.search"/>
+        </referenceContainer>
+    </body>
+</page>

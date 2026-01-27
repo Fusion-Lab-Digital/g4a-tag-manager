@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2025 Fusion Lab G.P
+ * Copyright (c) 2026 Fusion Lab G.P
  * Website: https://fusionlab.gr
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,10 +20,9 @@ namespace FusionLab\Ga4\Api\Data;
 
 interface EventDataInterface
 {
+    const EVENT = "event";
 
-    const EVENT = 'event';
-
-    const ECOMMERCE = 'ecommerce';
+    const ECOMMERCE = "ecommerce";
 
     /**
      * @return string
@@ -34,7 +33,9 @@ interface EventDataInterface
      * @param string $event
      * @return \FusionLab\Ga4\Api\Data\EventDataInterface
      */
-    public function setEvent(string $event): \FusionLab\Ga4\Api\Data\EventDataInterface;
+    public function setEvent(
+        string $event,
+    ): \FusionLab\Ga4\Api\Data\EventDataInterface;
 
     /**
      * @return \FusionLab\Ga4\Api\Data\EcommerceDataInterface|null
@@ -45,6 +46,7 @@ interface EventDataInterface
      * @param \FusionLab\Ga4\Api\Data\EcommerceDataInterface $ecommerceData
      * @return \FusionLab\Ga4\Api\Data\EventDataInterface
      */
-    public function setEcommerce(\FusionLab\Ga4\Api\Data\EcommerceDataInterface $ecommerceData): \FusionLab\Ga4\Api\Data\EventDataInterface;
-
+    public function setEcommerce(
+        \FusionLab\Ga4\Api\Data\EcommerceDataInterface $ecommerceData,
+    ): \FusionLab\Ga4\Api\Data\EventDataInterface;
 }
