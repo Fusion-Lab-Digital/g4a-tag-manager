@@ -7,7 +7,6 @@ define([
 
   $.widget("FusionLab.login", $.FusionLab.abstractGtm, {
     options: {
-      currency: "USD",
       method: "Magento",
       eventName: "login",
     },
