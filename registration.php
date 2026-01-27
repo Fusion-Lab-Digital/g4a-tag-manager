@@ -19,5 +19,5 @@
 \Magento\Framework\Component\ComponentRegistrar::register(
     \Magento\Framework\Component\ComponentRegistrar::MODULE,
     "FusionLab_Ga4",
-    "/var/www/html/php83/storeforyou/app/code/FusionLab/Ga4",
+    __DIR__,
 );
