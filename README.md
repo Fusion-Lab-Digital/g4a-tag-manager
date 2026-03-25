@@ -34,8 +34,9 @@ Semi PWA backend provided through rest endpoint to fetch product data.
   - add_payment_info
   - add_shipping_info
   - purchase
-  - login (new!)
-  - search (new!)
+  - login
+  - search
+  - add_to_wishlist (new!)
 - Multi Website / Storeview Support
 
 ## 🛠️ Installation
