@@ -21,9 +21,10 @@ use Magento\Customer\Model\Session;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 
-class SetLoginOnceFlag implements ObserverInterface
+class SetWishlistOnceFlag implements ObserverInterface
 {
-    const FLAG_FUSION_LAB_JUST_LOGGED_IN = "fusionlab_customer_just_logged_in";
+    const FLAG_FUSION_LAB_WISHLIST_ADD_ID = "fusionlab_wishlist_add_id";
+
     private Session $customerSession;
 
     /**
@@ -38,9 +39,10 @@ class SetLoginOnceFlag implements ObserverInterface
      */
     public function execute(Observer $observer)
     {
+        $productId = $observer->getEvent()->getProduct()->getId();
         $this->customerSession->setData(
-            self::FLAG_FUSION_LAB_JUST_LOGGED_IN,
-            true,
+            self::FLAG_FUSION_LAB_WISHLIST_ADD_ID,
+            $productId,
         );
     }
 }

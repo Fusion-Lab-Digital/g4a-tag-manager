@@ -50,6 +50,7 @@ class ConfigProvider
      */
     public function isEnabled(): bool
     {
+        return true;
         return $this->scopeConfig->getValue(
             self::XML_PATH_GTM_ENABLE,
             ScopeInterface::SCOPE_STORE,

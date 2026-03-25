@@ -1,5 +1,4 @@
-<?xml version="1.0"?>
-<!--
+<?php
 /**
  * Copyright (c) 2026 Fusion Lab G.P
  * Website: https://fusionlab.gr
@@ -16,15 +15,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
--->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
-    <event name="customer_login">
-        <observer name="FusionLab_Ga4::login_event"
-                  instance="FusionLab\Ga4\Observer\SetLoginOnceFlag"/>
-    </event>
-    <event name="wishlist_add_product">
-        <observer name="FusionLab_Ga4::wishlist_event"
-                  instance="FusionLab\Ga4\Observer\SetWishlistOnceFlag"/>
-    </event>
-</config>
+/** @var \FusionLab\Ga4\Block\AddToWishlist $block */
+
+?>
+
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "FusionLab_Ga4/js/add-to-wishlist": <?php echo $block->getJsLayout() ?>
+    }
+}
+</script>
